@@ -3,10 +3,12 @@
 // For more documentation on how to configure debug tasks,
 // see: https://zed.dev/docs/debugger
 [
-  {
-    "label": "Python Active File",
-    "adapter": "Debugpy",
-    "program": "$ZED_FILE",
-    "request": "launch"
-  }
+    {
+        "label": "Python Active File",
+        "adapter": "Debugpy",
+        "program": "$ZED_FILE",
+        "request": "launch",
+        "host": "0.0.0.0",
+        "port": 0
+    }
 ]

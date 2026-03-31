@@ -1,183 +1,373 @@
-# Interview Prep Guide
+# DSA Interview Prep Framework
 
-A structured approach to solving coding problems consistently — even when the solution is simple but your brain feels stuck.
-
----
-
-## Why You Get Stuck (Even on Easy Problems)
-
-Getting stuck is rarely about intelligence. It usually happens because:
-
-- You jump straight into coding without a plan.
-- You try to hold the entire problem in your head instead of writing things down.
-- You freeze when the first idea doesn't work, instead of iterating.
-- You confuse "I don't see the answer instantly" with "I can't solve this."
-
-The fix is **a repeatable process**, not more talent.
+A battle-tested system for solving coding problems under pressure. Not a collection of tips — a repeatable decision-making process.
 
 ---
 
-## Before You Start a Problem
+## The Core Loop
 
-### 1. Read the problem twice
-
-First read: understand _what_ is being asked. Second read: catch constraints, edge cases, and input/output format.
-
-### 2. Restate it in your own words
-
-Write a one-sentence summary. If you can't explain the problem simply, you don't understand it yet.
-
-### 3. Clarify constraints
-
-Ask yourself (or the interviewer):
-
-- What is the input size? (This hints at the expected time complexity)
-- Can the input be empty? Negative? Duplicates?
-- Is the input sorted? Can I modify it in place?
-- What should I return if there's no valid answer?
-
-### 4. Work through 1-2 examples
-
-Pick a simple case and an edge case. Write down the input, what the expected output is, and _why_ that's the answer. The _why_ is what matters — it forces you to reason about the problem and naturally leads you toward the right approach.
-
-> **Example — "Given a linked list, determine if it has a cycle."**
->
-> | Case      | Input                                | Output  | Why                                                         |
-> | --------- | ------------------------------------ | ------- | ----------------------------------------------------------- |
-> | Simple    | `1 -> 2 -> 3 -> 4 -> None`           | `False` | The list ends at `None`, no cycle                           |
-> | Has cycle | `1 -> 2 -> 3 -> 4 -> back to node 2` | `True`  | Node 4's next points to node 2, so traversing loops forever |
-> | Edge case | `None` (empty list)                  | `False` | No nodes, no cycle                                          |
->
-> Notice how writing _"traversing loops forever"_ already makes you think: _how would I detect that?_ — and that leads you to the fast/slow pointer pattern in step 5.
-
-### 5. Identify the pattern before writing code
-
-Match the problem to a known pattern:
-
-| Pattern            | Signals                                                                                          | Classic LeetCode Problems                                              |
-| ------------------ | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
-| Two pointers       | Sorted array, find a pair, compare from both ends, palindrome, remove duplicates in place        | Two Sum, 3Sum, Container With Most Water, Valid Palindrome             |
-| Sliding window     | Subarray/substring with a condition, max/min of contiguous elements, "at most K" constraint      | Longest Substring Without Repeating Characters, Minimum Window Substring, Max Consecutive Ones III |
-| Stack              | Matching brackets, nesting depth, next greater/smaller element, undo operations, monotonic order | Valid Parentheses, Daily Temperatures, Min Stack, Largest Rectangle in Histogram |
-| Queue / BFS        | Level-order traversal, shortest path in unweighted graph, process layer by layer                 | Binary Tree Level Order Traversal, Rotting Oranges, Word Ladder        |
-| Binary search      | Sorted input, "find min/max that satisfies", search space can be halved, answer in a range       | Search in Rotated Sorted Array, Find Minimum in Rotated Sorted Array, Koko Eating Bananas |
-| Recursion / DFS    | Tree traversal, graph exploration, generate all subsets/permutations, "return all possible"      | Maximum Depth of Binary Tree, Symmetric Tree, Subsets, Number of Islands |
-| Linked list tricks | Reverse a list, detect cycle, find middle, merge two lists, fast/slow pointer                    | Reverse Linked List, Linked List Cycle, Merge Two Sorted Lists, Reorder List |
-| Divide & conquer   | Split problem in halves, merge sorted results, tree construction from traversal                  | Merge Sort, Sort an Array, Construct Binary Tree from Preorder and Inorder |
-| Bit manipulation   | XOR to find unique, check powers of 2, count bits, binary representation                        | Single Number, Number of 1 Bits, Add Binary, Power of Two              |
-| Hash map           | Count frequencies, find duplicates, group elements, O(1) lookup to replace nested loop           | Two Sum, Group Anagrams, Top K Frequent Elements, Contains Duplicate   |
-| Dynamic programming| Overlapping subproblems, optimal substructure, "min/max cost", "number of ways"                  | Climbing Stairs, Coin Change, Longest Common Subsequence, House Robber |
-| Heap               | "K largest/smallest", merge K sorted things, running median, schedule by priority                | Kth Largest Element, Merge K Sorted Lists, Find Median from Data Stream |
-
-If you can't identify the pattern, that's fine — move to brute force first.
-
----
-
-## During the Problem
-
-### 6. Pick your approach
-
-If you recognized the pattern in step 5, go directly with the right tool — you've studied these data structures and algorithms, use that knowledge. No need to force a brute force solution when you already know a hash map or two pointers is the way.
-
-If you _can't_ identify the pattern, then fall back to brute force. A slow working solution is still better than nothing, and it often reveals the optimization path.
-
-### 7. Write pseudocode before code
-
-3-5 lines of plain English. This is your outline. It prevents you from getting lost in syntax while still thinking about logic.
+Every problem follows the same loop. Internalize this until it's automatic:
 
 ```
-# for each element
-#   check if complement exists in hash map
-#   if yes, return indices
-#   if no, add current to hash map
+UNDERSTAND --> PLAN --> IMPLEMENT --> VERIFY --> OPTIMIZE
+     ^                                             |
+     |_____________________________________________|
+              (repeat if needed)
 ```
 
-### 8. Code it up, one piece at a time
-
-- Write the skeleton first (function signature, return statement).
-- Fill in the main logic.
-- Handle edge cases last.
-
-### 9. When you feel stuck mid-problem
-
-**Stop coding. Go back to an example.** Trace through your current code with a specific input. The bug or the missing insight will usually show up.
-
-Other unblocking strategies:
-
-- Simplify the problem (solve for n=1, then n=2, then generalize).
-- Think about what data structure would make the hard part easy.
-- Draw it: arrays as boxes, trees as nodes, graphs as circles with arrows.
+Each phase has a specific job. Skipping a phase is how you get stuck.
 
 ---
 
-## After You Solve It
+## Phase 1: UNDERSTAND (2-3 min)
 
-### 10. Test with edge cases
+Your only goal here is to **eliminate ambiguity**. You should not be thinking about solutions yet.
 
-Always check:
+### 1.1 Read for structure, then for detail
 
-- Empty input (`[]`, `""`, `None`)
-- Single element
-- All same elements
-- Already sorted / reverse sorted
-- Very large input (does your complexity hold?)
+- **First pass**: What are the inputs? What is the output? What transformation connects them?
+- **Second pass**: Constraints, edge cases, gotchas hiding in the wording.
 
-### 11. Analyze time and space complexity
+### 1.2 Restate the problem in one sentence
 
-State both. Practice saying: _"This is O(n) time and O(1) space because..."_
+If you can't, you don't understand it yet. Force yourself:
 
-### 12. Review and reflect (most people skip this)
+> "Given X, find/return/compute Y such that Z."
 
-After solving, spend 2 minutes answering:
+This sentence is also exactly how you'd open in an interview.
 
-- What pattern did this use?
-- Where did I get stuck and why?
-- What would I do differently next time?
-- Can I solve it a different way?
+### 1.3 Constrain the solution space
 
-Write a short comment at the top of your file:
+**This is the single most important skill most people never develop.** The constraints _tell you_ what complexity is expected:
+
+| Input size (n)     | Target complexity   | What this rules out              |
+|--------------------|---------------------|----------------------------------|
+| n <= 10            | O(n!) or O(2^n)     | Nothing — brute force is fine    |
+| n <= 20            | O(2^n)              | Must be exponential or better    |
+| n <= 500           | O(n^3)              | Nested triple loops are ok       |
+| n <= 10,000        | O(n^2)              | No cubic solutions               |
+| n <= 1,000,000     | O(n) or O(n log n)  | No quadratic solutions           |
+| n <= 100,000,000   | O(n) or O(log n)    | Must be linear or sub-linear     |
+
+Before you think about _how_ to solve it, you already know _how fast_ your solution needs to be.
+
+### 1.4 Clarify with questions
+
+In interviews, asking good questions shows maturity. Always ask:
+
+- Can the input be empty? Contain negatives? Have duplicates?
+- Is the input sorted or can I sort it?
+- Should I optimize for time or space?
+- Can I modify the input in place?
+- Is there guaranteed to be a valid answer?
+
+### 1.5 Trace 2-3 examples by hand
+
+Pick deliberately:
+
+| Example type | Purpose                                      |
+|-------------|-----------------------------------------------|
+| Happy path  | Verify your understanding of the core task     |
+| Small input | n=1 or n=2 — reveals base cases               |
+| Edge case   | Empty, all same, duplicates, negative, max size|
+
+**Write down intermediate states, not just input/output.** The intermediate states reveal the algorithm.
+
+> **Example — "Find two numbers in an array that sum to target"**
+>
+> ```
+> Input: [2, 7, 11, 15], target = 9
+>
+> Step through:
+>   i=0: value=2, need 9-2=7, seen={}          --> 7 not in seen, add 2
+>   i=1: value=7, need 9-7=2, seen={2:0}       --> 2 IS in seen at index 0!
+>   Return [0, 1]
+> ```
+>
+> Notice: writing the intermediate state _led_ to the hash map approach naturally.
+
+---
+
+## Phase 2: PLAN (3-5 min)
+
+Now — and only now — think about solutions. This phase has two tracks depending on whether you recognize the problem pattern.
+
+### Track A: You recognize the pattern
+
+Go straight to the right approach. You've studied these patterns; use them.
+
+**Pattern Recognition Decision Tree:**
+
+```
+Is it asking about subarrays/substrings with a condition?
+  --> Sliding Window
+
+Is the input sorted, or could sorting help?
+  --> Two Pointers / Binary Search
+
+Do I need O(1) lookup or frequency counting?
+  --> Hash Map / Hash Set
+
+Is it "find all combinations/permutations/subsets"?
+  --> Backtracking
+
+Does it involve a tree or graph traversal?
+  --> DFS (recursion/stack) or BFS (queue)
+
+Is it "find min/max/count of ways" with overlapping choices?
+  --> Dynamic Programming
+
+Is it "K largest/smallest" or "merge K sorted"?
+  --> Heap
+
+Is it "next greater/smaller element" or nested intervals?
+  --> Monotonic Stack
+
+Is it about matching/nesting/undo?
+  --> Stack
+
+Does it involve connected components or shortest path?
+  --> Graph (BFS for shortest, DFS/Union-Find for components)
+```
+
+### Track B: You don't recognize the pattern
+
+**Don't panic.** Follow this escalation:
+
+1. **Brute force first.** What's the simplest, most naive way to solve this? Even O(n^3) is fine as a starting point. Name it, state its complexity.
+
+2. **Identify the bottleneck.** What's the expensive part? Usually it's a nested loop or repeated search.
+
+3. **Eliminate the bottleneck.** Ask: _"What data structure would make the slow part fast?"_
+   - Repeated search? --> Hash map (O(1) lookup)
+   - Finding min/max repeatedly? --> Heap or monotonic structure
+   - Recomputing overlapping work? --> DP / memoization / prefix sum
+
+4. **Check against constraint.** Does your improved approach hit the target complexity from Phase 1? If yes, go. If no, repeat.
+
+### 2.1 State your approach out loud
+
+In an interview, say:
+
+> "My approach is to use [technique] because [reason]. This will be O(X) time and O(Y) space. Before I code, does that sound reasonable?"
+
+This does three things: confirms alignment with the interviewer, demonstrates structured thinking, and gives you a verbal outline to follow.
+
+### 2.2 Write pseudocode (3-5 lines max)
+
+```
+# build frequency map of characters in target
+# expand window: move right pointer, update counts
+# when window contains all target chars, shrink from left
+# track minimum valid window seen
+```
+
+This is your contract. Code should follow this structure exactly.
+
+---
+
+## Phase 3: IMPLEMENT (10-15 min)
+
+### 3.1 Skeleton first
+
+Write the function signature, initialize your data structures, and write the return statement. Now you have a frame to fill in.
 
 ```python
-# Pattern: hash map lookup
-# Complexity: O(n) time, O(n) space
-# Lesson: when looking for pairs, think hash map before nested loop
+def two_sum(nums, target):
+    seen = {}
+
+    # main logic goes here
+
+    return []
 ```
 
-### 13. Revisit problems that were hard
+### 3.2 Fill in the logic from your pseudocode
 
-Use spaced repetition:
+Translate each pseudocode line to code, one at a time. Don't jump ahead.
 
-- Solve again after 1 day
-- Solve again after 1 week
-- If it's still hard, solve again after 2 weeks
+### 3.3 Code habits that prevent bugs
 
-If you solved it easily the second time, you actually learned it. If not, repeat.
+- **Name variables clearly.** `left`, `right`, `count`, `result` — not `i`, `j`, `c`, `r`.
+- **Get loop boundaries right the first time.** Think: does this need `<` or `<=`? Does `right` start at 0 or 1?
+- **Handle the base case explicitly** at the top of the function, not buried in logic.
+- **Don't clever-code.** In interviews, readable beats clever every time.
+
+### 3.4 When you're stuck mid-implementation
+
+**Stop typing. Go back to a concrete example.** Trace your current code with a specific input, line by line. The bug reveals itself.
+
+Other unblocking moves:
+- Solve the smallest version first (n=1, n=2), then generalize
+- Draw the data structure's state at each step
+- Ask: "What information do I need that I don't currently have?"
 
 ---
 
-## Daily Practice Structure
+## Phase 4: VERIFY (2-3 min)
+
+### 4.1 Trace through your code with an example
+
+Don't just re-read the code — execute it mentally with a specific input. Track every variable's value. This catches off-by-one errors and wrong conditions.
+
+### 4.2 Test edge cases
+
+Your go-to checklist:
 
 ```
-1. Warm-up (5 min)    — Re-solve a problem you did last week from memory
-2. New problem (25 min) — Follow the full process above
-3. Review (5 min)      — Write your reflection comment
+[ ] Empty input ([], "", None, 0)
+[ ] Single element
+[ ] Two elements (minimum for "pair" problems)
+[ ] All identical elements
+[ ] Already sorted / reverse sorted
+[ ] Negative numbers (if applicable)
+[ ] Answer doesn't exist (return default)
+[ ] Maximum input size (does complexity hold?)
 ```
 
-Consistency beats volume. One problem per day with full reflection is better than five problems with no review.
+### 4.3 Check for common bugs
+
+- Off-by-one in loop bounds
+- Returning the wrong thing (index vs value, list vs single element)
+- Not handling the "not found" case
+- Integer overflow (mostly Java/C++)
+- Mutating input when you shouldn't be
 
 ---
 
-## Common Mistakes to Avoid
+## Phase 5: OPTIMIZE (only if needed)
 
-| Mistake                                    | Fix                                                       |
-| ------------------------------------------ | --------------------------------------------------------- |
-| Jumping straight to code                   | Write pseudocode first                                    |
-| Not recognizing the pattern first          | Identify the pattern, then pick the right tool directly   |
-| Not testing edge cases                     | Keep a mental checklist (empty, single, duplicates)       |
-| Spending 40+ minutes stuck on one approach | After 15 min stuck, step back and try a different pattern |
-| Only solving, never reviewing              | The reflection step is where learning happens             |
-| Memorizing solutions                       | Understand the _why_ — the pattern, not the code          |
+Only enter this phase if:
+- Your solution works but doesn't meet the target complexity
+- The interviewer asks "can you do better?"
+
+### Optimization strategies in order of impact
+
+1. **Eliminate redundant work** — Are you computing the same thing twice? Cache it (hash map, memo table, prefix sum).
+2. **Trade space for time** — A hash set/map often eliminates an inner loop.
+3. **Change traversal order** — Sometimes processing right-to-left or bottom-up unlocks a simpler solution.
+4. **Use a smarter data structure** — Heap for top-K, trie for prefix search, monotonic stack for next-greater.
+5. **Reduce the search space** — Binary search on the answer, two pointers on sorted input.
 
 ---
 
-_The goal is not to solve every problem — it's to build a process you trust so that when you sit down in the interview, you know exactly how to start._
+## Pattern Reference
+
+Quick reference for the core patterns. Know when to reach for each tool.
+
+| Pattern | Key Signal | Core Idea | Typical Complexity |
+|---|---|---|---|
+| Two Pointers | Sorted input, pairs, palindrome | Pointers moving inward or same direction | O(n) |
+| Sliding Window | Contiguous subarray/substring with constraint | Expand right, shrink left, track window state | O(n) |
+| Binary Search | Sorted data, "min that satisfies" | Halve search space each step | O(log n) |
+| Hash Map | Frequency, pairs, grouping, O(1) lookup | Trade O(n) space for O(1) access | O(n) / O(n) |
+| Stack | Matching pairs, nesting, next greater/smaller | LIFO for tracking open/pending items | O(n) |
+| BFS | Shortest path (unweighted), level-order | Queue-based layer-by-layer exploration | O(V+E) |
+| DFS | Tree/graph traversal, all paths, components | Recursion or explicit stack, go deep first | O(V+E) |
+| Backtracking | All combinations/permutations/subsets | Build candidates, prune invalid branches | O(2^n) or O(n!) |
+| Dynamic Programming | Overlapping subproblems, optimal substructure | Solve subproblems once, build up to answer | Varies |
+| Heap | K largest/smallest, merge K sorted, median | Maintain partial order for efficient min/max | O(n log k) |
+| Monotonic Stack | Next greater/smaller, histogram problems | Stack maintains increasing/decreasing order | O(n) |
+| Union-Find | Connected components, cycle detection | Group elements, near-O(1) merge and find | O(n * a(n)) |
+| Trie | Prefix matching, autocomplete, word search | Tree of characters for prefix operations | O(L) per word |
+| Prefix Sum | Range sum queries, subarray sums | Precompute cumulative sums for O(1) range queries | O(n) build, O(1) query |
+
+---
+
+## Interview Communication
+
+Solving the problem is only half the battle. How you communicate matters just as much.
+
+### What interviewers are evaluating
+
+1. **Problem solving process** — Do you have a systematic approach?
+2. **Communication** — Can you explain your thinking clearly?
+3. **Code quality** — Is your code clean and correct?
+4. **Testing mindset** — Do you verify your work?
+5. **Collaboration** — Do you respond well to hints?
+
+### Talk track template
+
+```
+[UNDERSTAND] "Let me make sure I understand the problem..."
+             "A few clarifying questions..."
+             "Let me trace through this example..."
+
+[PLAN]       "I'm thinking this is a [pattern] problem because..."
+             "My approach would be... which gives us O(X) time, O(Y) space."
+             "Does that direction sound good before I start coding?"
+
+[IMPLEMENT]  "I'll start by setting up [structure]..."
+             "Now I'll handle the main logic..."
+             (narrate at decision points, not every line)
+
+[VERIFY]     "Let me trace through with our example..."
+             "Edge case to check: what if the input is empty..."
+
+[OPTIMIZE]   "This works, but if we wanted to optimize..."
+             "The bottleneck is [X], and we could improve it by..."
+```
+
+### Receiving hints gracefully
+
+- "That's a great point, let me think about that..."
+- "Oh I see — so if I [restate hint in your own words]..."
+- Never ignore a hint. It's a lifeline, not a penalty.
+
+---
+
+## Deliberate Practice System
+
+### Daily routine (35 min)
+
+```
+[5 min]  Re-solve one problem from last week — no looking at notes
+[25 min] One new problem using the full framework above
+[5 min]  Write reflection (pattern, where you got stuck, lesson)
+```
+
+### Reflection template (top of every solution file)
+
+```python
+# Pattern: <pattern name>
+# Complexity: O(?) time, O(?) space
+# Lesson: <the one thing to remember for next time>
+```
+
+### Spaced repetition schedule
+
+```
+Day 0: Solve the problem
+Day 1: Re-solve from scratch
+Day 3: Re-solve from scratch
+Day 7: Re-solve from scratch
+Day 14+: Only if it was still hard at Day 7
+```
+
+If you solve it cleanly at Day 3, you've learned it. Move on.
+
+### Weekly review
+
+Once a week, scan your solved problems and ask:
+- Which patterns am I comfortable with?
+- Which patterns keep tripping me up?
+- What's my most common mistake? (Check `MISTAKES_LOG.md`)
+
+Spend the next week's practice on your weak patterns, not your strong ones.
+
+---
+
+## When Things Go Wrong
+
+| Situation | What to do |
+|---|---|
+| Can't understand the problem | Restate it simpler. Draw a picture. Trace a tiny example. |
+| Can't find the pattern | Start with brute force. The bottleneck in brute force often reveals the pattern. |
+| Stuck for 5+ minutes on one part | Step back. Re-read the problem. Try a different example. Ask: "What information am I missing?" |
+| Code has a bug | Stop guessing. Trace through with a concrete input, tracking every variable. |
+| Solution is too slow | Identify the bottleneck operation. What data structure makes that operation cheaper? |
+| 15+ minutes with no progress | In practice: look at a hint, learn the pattern, re-solve later. In interview: ask for a nudge. |
+| Interviewer gives a hint | Take it. Restate it. Build on it. It's collaboration, not failure. |
+
+---
+
+_The goal isn't to memorize solutions. It's to build a decision-making process you trust — so that under pressure, you know exactly what to do next._
