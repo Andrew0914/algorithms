@@ -11,27 +11,32 @@ def task_scheduling_2(
             indegree[dependant_task] += 1
         return indegree
 
-    tasks_times = {task: times[dx] for dx, task in enumerate(tasks)}
-
     q = deque()
     indegree = find_indegree()
+    tasks_times = {task: times[dx] for dx, task in enumerate(tasks)}
+    acc_times = {task: 0 for task in tasks}
 
+    total = 0
     for node in indegree:
         if indegree[node] == 0:
             q.append(node)
+            acc_times[node] = tasks_times[node]
+            total = max(total, acc_times[node])
 
     while len(q) > 0:
         node = q.popleft()
-
         for req in requirements:
             if req[0] != node:
                 continue
             indegree[req[1]] -= 1
-
+            acc_times[req[1]] = max(
+                acc_times[req[1]], acc_times[node] + tasks_times[req[1]]
+            )
+            total = max(total, acc_times[req[1]])
             if indegree[req[1]] == 0:
                 q.append(req[1])
 
-    return 0
+    return total
 
 
 tasks = ["a", "b", "c", "d", "f", "g", "h"]
